@@ -9,6 +9,12 @@ export default function Home() {
 				style={{ gridTemplateRows: "repeat(auto-fill, minmax(100px, 1fr))", height: '100vh' }}
 			>
 				<h1 className="text-5xl font-bold"> Classroom Randomizer </h1>
+				<Image 
+					src="/image.png"
+					alt="Classroom"
+					width={181}
+					height={143}
+				/>
 				<Link
 					href="/seatingchart"
 					className="flex items-center gap-5 self-start rounded-lg bg-blue-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"

@@ -9,7 +9,7 @@ export default function Page() {
       <h1 className="text-5xl font-bold"> Group Randomizer </h1>
       <Link 
         href="/"
-        className="items-center gap-5 self-start rounded-lg bg-blue-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-gray-400 md:text-base"
+        className="items-center gap-5 self-start rounded-lg bg-red-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-400 md:text-base"
       >
         Click here to go back
       </Link>
