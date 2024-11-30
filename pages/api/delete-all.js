@@ -5,7 +5,7 @@ export default function handler(req, res) {
     if (req.method === 'DELETE') {
       try {
         // Define the file path
-        const filePath = path.join(process.cwd(), 'students.json');
+        const filePath = path.join(process.cwd(), '/java/students.json');
         console.log('File path:', filePath);
   
         // Read existing data

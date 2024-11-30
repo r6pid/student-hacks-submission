@@ -8,7 +8,7 @@ export default function handler(req, res) {
       console.log('Received student data:', studentData);
 
       // Define the file path
-      const filePath = path.join(process.cwd(), 'students.json');
+      const filePath = path.join(process.cwd(), '/java/students.json');
       console.log('File path:', filePath);
 
       // Read existing data with error handling for JSON parsing

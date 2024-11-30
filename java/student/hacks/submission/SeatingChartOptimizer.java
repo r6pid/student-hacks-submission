@@ -1,43 +1,11 @@
-import org.json.JSONArray;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.FileReader;
+package student.hacks.submission;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SeatingChartOptimizer {
-
-    public static List<Student> readStudentsFromJson(String filePath) {
-        List<Student> students = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            StringBuilder jsonContent = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonContent.append(line);
-            }
-            JSONArray jsonArray = new JSONArray(jsonContent.toString());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Student student = new Student(
-                        jsonObject.getInt("id"),
-                        jsonObject.getString("personality"),
-                        jsonObject.getInt("bestFriendId"),
-                        jsonObject.getBoolean("eyesightIssues"),
-                        jsonObject.getString("gender"),
-                        jsonObject.getInt("noisinessLevel"),
-                        jsonObject.getDouble("gpa"),
-                        jsonObject.getString("favoriteSubject"),
-                        jsonObject.getInt("participationLevel"),
-                        jsonObject.getInt("attendanceConsistency")
-                );
-                students.add(student);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return students;
-    }
 
     // Inner class for Student
     static class Student {
@@ -301,33 +269,53 @@ public class SeatingChartOptimizer {
 
     // Main method for running the simulation
     public static void main(String[] args) {
-        // Step 1: Create the classroom grid
+
+        // Step 1: Read and parse the JSON file to gather the list of students
+        List<Student> students = new ArrayList<>();
+        try {
+            String jsonFilePath = "students.json";
+            String jsonData = ReadJsonFile.readJsonFromFile(jsonFilePath);
+            students = ParseJson.parseJsonData(jsonData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Step 2: Create the classroom grid
         int[][] classroomGrid = new int[10][10]; // 10x10 grid
         // Initialize the grid with a predefined pattern of seats (1 for seat, 0 for no seat)
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                classroomGrid[i][j] = (i + j) % 2 == 0 ? 1 : 0; // Example alternating seat pattern
+                classroomGrid[i][j] = 10*i+j+1 < students.size() ? 1 : 0;
             }
         }
-
-        // Step 2: Gather the list of students
-        List<Student> students = readStudentsFromJson("students.json");
 
         // Step 3: Run the seating chart optimization
         int[][] optimizedChart = optimizeSeating(classroomGrid, students);
 
-        // Step 4: Display the optimized seating chart
-        System.out.println("Optimized Seating Chart:");
-        displaySeatingChart(optimizedChart);
-
-        // Step 5: Display student details
-        System.out.println("\nStudent Details:");
-        for (Student student : students) {
-            System.out.printf("ID: %d, Personality: %s, Best Friend: %d, Eyesight: %b, Gender: %s, "
-                            + "Noisiness: %d, GPA: %.2f, Favorite Subject: %s, Participation: %d, Attendance: %d\n",
-                    student.id, student.personality, student.bestFriendId, student.eyesightIssues,
-                    student.gender, student.noisinessLevel, student.gpa, student.favoriteSubject,
-                    student.participationLevel, student.attendanceConsistency);
+        // Step 4: Get the order of students from left to right, front to back
+        List<Integer> studentOrder = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if (optimizedChart[i][j] > 0) {
+                    studentOrder.add(optimizedChart[i][j]);
+                }
+            }
         }
+
+        // Step 5: Write the student order to a file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("seating-chart.json"))) {
+            writer.write("[");
+            for (int i = 0; i < studentOrder.size(); i++) {
+                writer.write(studentOrder.get(i).toString());
+                if (i < studentOrder.size() - 1) {
+                    writer.write(", ");
+                }
+            }
+            writer.write("]");
+            System.out.println("Successfully written the list to the JSON file.");
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+        }  
     }
 }

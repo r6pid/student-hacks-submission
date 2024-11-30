@@ -3,10 +3,10 @@
     "id": "1",
     "personality": "Introvert",
     "bestFriendId": "2",
-    "eyesightIssues": false,
+    "eyesightIssues": true,
     "gender": "Male",
     "noisinessLevel": "1",
-    "gpa": "1",
+    "gpa": "0.1",
     "favoriteSubject": "Math",
     "participationLevel": "1",
     "attendanceConsistency": "1"

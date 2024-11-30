@@ -21,6 +21,7 @@ export default function Page() {
   const [colors, setColors] = useState(Array(100).fill('lightgray'));
   const [greenSquares, setGreenSquares] = useState([]);
   const [students, setStudents] = useState<Student[]>([]);
+  const [output, setOutput] = useState('');
 
   const handleSquareClick = (index) => {
     const newColors = colors.map((color, i) =>
@@ -35,24 +36,19 @@ export default function Page() {
     setGreenSquares(updatedGreenSquares);
   };
 
+  const makeChart = async () => {
+    const response = await fetch('/api/run-java', {
+        method: 'POST'
+    });
+    const data = await response.json();
+    if (data.error) {
+        console.error(data.error);
+    } else {
+        setOutput(data.output);
+    }
+  };
+
   useEffect(() => {
-    const fetchSeatingChart = async () => {
-      try {
-        const response = await fetch('/api/create-seating-chart');
-        if (response.ok) {
-          const data = await response.json();
-          setChart(data);
-        } else {
-          alert('Failed to fetch seating chart');
-        }
-      } catch (error) {
-        alert('Error fetching seating chart');
-        console.error('Error:', error);
-      }
-    };
-
-    fetchSeatingChart();
-
     const fetchStudents = async () => {
       try {
         const response = await fetch('/api/get-students');
@@ -77,6 +73,7 @@ export default function Page() {
     if (greenSquares.length != students.length) {
       alert("Number of seats needs to equal number of students!")
     }
+    makeChart();
   };
 
   return (
