@@ -1,11 +1,43 @@
-import org.json.JSONArray; 
-import org.json.JSONObject; 
-import java.io.BufferedReader; 
-import java.io.FileReader; 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SeatingChartOptimizer {
+
+    public static List<Student> readStudentsFromJson(String filePath) {
+        List<Student> students = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            StringBuilder jsonContent = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonContent.append(line);
+            }
+            JSONArray jsonArray = new JSONArray(jsonContent.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Student student = new Student(
+                        jsonObject.getInt("id"),
+                        jsonObject.getString("personality"),
+                        jsonObject.getInt("bestFriendId"),
+                        jsonObject.getBoolean("eyesightIssues"),
+                        jsonObject.getString("gender"),
+                        jsonObject.getInt("noisinessLevel"),
+                        jsonObject.getDouble("gpa"),
+                        jsonObject.getString("favoriteSubject"),
+                        jsonObject.getInt("participationLevel"),
+                        jsonObject.getInt("attendanceConsistency")
+                );
+                students.add(student);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
 
     // Inner class for Student
     static class Student {
@@ -55,7 +87,7 @@ public class SeatingChartOptimizer {
         int[][] currentChart = assignRandomSeating(grid, students);
 
         // Iterate to optimize seating
-        for (int iteration = 0; iteration < 1000; iteration++) {
+        for (int iteration = 0; iteration < 1000; iteration++) { // Reduced iterations for quick testing
             int[][] newChart = swapRandomSeats(currentChart, students);
             int comfortScore = calculateComfortScore(newChart, students);
 
@@ -70,30 +102,80 @@ public class SeatingChartOptimizer {
 
     // Assign random seating to students
     public static int[][] assignRandomSeating(int[][] grid, List<Student> students) {
-        int[][] seatingChart = deepCopyGrid(grid);
+        int[][] seatingChart;
         List<GridPosition> seats = new ArrayList<>();
+        Set<Integer> assignedStudents = new HashSet<>();
 
+        // Collect available seat positions
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
-                if (grid[i][j] == 1) {
-                    seats.add(new GridPosition(i, j));
+                if (grid[i][j] == 1) { // Only consider valid seats
+                    GridPosition gp = new GridPosition(i, j);
+                    seats.add(gp);
                 }
             }
         }
 
-        Collections.shuffle(seats);
-        for (int i = 0; i < students.size(); i++) {
-            GridPosition seat = seats.get(i);
-            seatingChart[seat.x][seat.y] = students.get(i).id;
-        }
+        // Repeat until a valid seating chart is generated
+        do {
+            assignedStudents.clear();
+            seatingChart = deepCopyGrid(grid);
+
+            Collections.shuffle(seats); // Shuffle for randomness
+
+            // Assign students to available seats
+            for (int i = 0; i < students.size() && i < seats.size(); i++) {
+                GridPosition seat = seats.get(i);
+                Student student = students.get(i);
+
+                if (!assignedStudents.contains(student.id)) {
+                    seatingChart[seat.x][seat.y] = student.id;
+                    assignedStudents.add(student.id);
+                }
+            }
+        } while (hasDuplicates(seatingChart)); // Regenerate if duplicates are found
 
         return seatingChart;
+    }
+
+    // Swap two random students' seats
+    public static int[][] swapRandomSeats(int[][] chart, List<Student> students) {
+        int[][] newChart = deepCopyGrid(chart);
+        Random rand = new Random();
+
+        // Pick two unique students to swap
+        int student1Index = rand.nextInt(students.size());
+        int student2Index = rand.nextInt(students.size());
+
+        while (student1Index == student2Index) {
+            student2Index = rand.nextInt(students.size());
+        }
+
+        // Find their positions in the chart
+        int student1Id = students.get(student1Index).id;
+        int student2Id = students.get(student2Index).id;
+        GridPosition pos1 = findStudentPosition(newChart, student1Id);
+        GridPosition pos2 = findStudentPosition(newChart, student2Id);
+
+        if (pos1 != null && pos2 != null) {
+            // Swap the two students
+            newChart[pos1.x][pos1.y] = student2Id;
+            newChart[pos2.x][pos2.y] = student1Id;
+        }
+
+        return newChart;
     }
 
     // Calculate the comfort score of a seating chart
     public static int calculateComfortScore(int[][] chart, List<Student> students) {
         int score = 0;
 
+        // Validate the seating chart for duplicates
+        if (hasDuplicates(chart)) {
+            return Integer.MIN_VALUE; // Return a very low score if duplicates are detected
+        }
+
+        // Calculate the comfort score
         for (Student student : students) {
             GridPosition position = findStudentPosition(chart, student.id);
             if (position == null) continue;
@@ -107,6 +189,7 @@ public class SeatingChartOptimizer {
             // Best friend proximity
             if (student.bestFriendId > 0) {
                 GridPosition bestFriendPos = findStudentPosition(chart, student.bestFriendId);
+
                 if (bestFriendPos != null) {
                     int distance = Math.abs(position.x - bestFriendPos.x) + Math.abs(position.y - bestFriendPos.y);
 
@@ -147,6 +230,22 @@ public class SeatingChartOptimizer {
         return score;
     }
 
+    // Check for duplicates in the seating chart
+    public static boolean hasDuplicates(int[][] chart) {
+        Set<Integer> seen = new HashSet<>();
+        for (int[] row : chart) {
+            for (int seat : row) {
+                if (seat > 0) { // Ignore empty seats (denoted by 0)
+                    if (seen.contains(seat)) {
+                        return true; // Duplicate found
+                    }
+                    seen.add(seat);
+                }
+            }
+        }
+        return false; // No duplicates
+    }
+
     // Find the position of a student in the chart
     public static GridPosition findStudentPosition(int[][] chart, int studentId) {
         for (int i = 0; i < chart.length; i++) {
@@ -172,39 +271,13 @@ public class SeatingChartOptimizer {
                 count++;
             }
         }
-        return count;
-    }
 
-    // Check if two positions are adjacent
-    public static boolean isAdjacent(GridPosition p1, GridPosition p2) {
-        return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y) == 1;
+        return count;
     }
 
     // Check if a position is in the center region
     public static boolean isCenter(int x, int y, int rows, int cols) {
         return x >= rows / 3 && x < 2 * rows / 3 && y >= cols / 3 && y < 2 * cols / 3;
-    }
-
-    // Swap two random students' seats in the chart
-    public static int[][] swapRandomSeats(int[][] chart, List<Student> students) {
-        int[][] newChart = deepCopyGrid(chart);
-        Random rand = new Random();
-
-        // Randomly pick two students to swap
-        int student1Id = students.get(rand.nextInt(students.size())).id;
-        int student2Id = students.get(rand.nextInt(students.size())).id;
-
-        // Find their positions in the chart
-        GridPosition pos1 = findStudentPosition(newChart, student1Id);
-        GridPosition pos2 = findStudentPosition(newChart, student2Id);
-
-        if (pos1 != null && pos2 != null) {
-            // Swap the two students
-            newChart[pos1.x][pos1.y] = student2Id;
-            newChart[pos2.x][pos2.y] = student1Id;
-        }
-
-        return newChart;
     }
 
     // Create a deep copy of the seating grid
@@ -226,42 +299,10 @@ public class SeatingChartOptimizer {
         }
     }
 
-    public static List<Student> readStudentsFromJson(String filePath) {
-        List<Student> students = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            StringBuilder jsonContent = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                jsonContent.append(line);
-            }
-            JSONArray jsonArray = new JSONArray(jsonContent.toString());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Student student = new Student(
-                        jsonObject.getInt("id"),
-                        jsonObject.getString("personality"),
-                        jsonObject.getInt("bestFriendId"),
-                        jsonObject.getBoolean("eyesightIssues"),
-                        jsonObject.getString("gender"),
-                        jsonObject.getInt("noisinessLevel"),
-                        jsonObject.getDouble("gpa"),
-                        jsonObject.getString("favoriteSubject"),
-                        jsonObject.getInt("participationLevel"),
-                        jsonObject.getInt("attendanceConsistency")
-                );
-                students.add(student);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return students;
-    }
-
     // Main method for running the simulation
     public static void main(String[] args) {
         // Step 1: Create the classroom grid
         int[][] classroomGrid = new int[10][10]; // 10x10 grid
-
         // Initialize the grid with a predefined pattern of seats (1 for seat, 0 for no seat)
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -269,8 +310,8 @@ public class SeatingChartOptimizer {
             }
         }
 
-        // Step 2: Create a list of 30 students with varying attributes
-        List<Student> students = readStudentsFromJson("path/to/students.json");
+        // Step 2: Gather the list of students
+        List<Student> students = readStudentsFromJson("students.json");
 
         // Step 3: Run the seating chart optimization
         int[][] optimizedChart = optimizeSeating(classroomGrid, students);
