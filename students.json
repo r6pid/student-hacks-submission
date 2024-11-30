@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "personality": "Introverted",
+    "bestFriendId": "2",
+    "eyesightIssues": true,
+    "gender": "Male",
+    "noisinessLevel": "1",
+    "gpa": "0.1",
+    "favoriteSubject": "Math",
+    "participationLevel": "1",
+    "attendanceConsistency": "1"
+  }
+]
