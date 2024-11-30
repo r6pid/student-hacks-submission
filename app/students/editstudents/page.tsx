@@ -26,10 +26,12 @@ export default function ViewStudents() {
         if (response.ok) {
           const data = await response.json();
           setStudents(data);
-        } else {
+        } 
+        else {
           alert('Failed to fetch students data');
         }
-      } catch (error) {
+      } 
+      catch (error) {
         alert('Error fetching students data');
         console.error('Error:', error);
       }
@@ -38,7 +40,48 @@ export default function ViewStudents() {
     fetchStudents();
   }, []);
 
-  
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await fetch('/api/delete-student', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      if (response.ok) {
+        alert('Student deleted successfully');
+        setStudents(students.filter(student => student.id !== id));
+      } else {
+        alert('Failed to delete student');
+      }
+    } catch (error) {
+      alert('Error deleting student');
+      console.error('Error:', error);
+    }
+  };
+
+  const handleDeleteAll = async () => {
+    try {
+      const response = await fetch('/api/delete-all', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        alert('Students deleted successfully');
+        setStudents([]);
+      } else {
+        alert('Failed to delete students');
+      }
+    } catch (error) {
+      alert('Error deleting students');
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]" style={{ gridTemplateRows: "auto auto auto", height: '100vh' }}>
@@ -57,6 +100,7 @@ export default function ViewStudents() {
             <th className="border border-slate-600 p-2">Favorite Subject</th>
             <th className="border border-slate-600 p-2">Participation Level</th>
             <th className="border border-slate-600 p-2">Attendance Consistency</th>
+            <th className="border border-slate-600 p-2">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -72,10 +116,24 @@ export default function ViewStudents() {
               <td className="border border-slate-700 p-2">{student.favoriteSubject}</td>
               <td className="border border-slate-700 p-2">{student.participationLevel}</td>
               <td className="border border-slate-700 p-2">{student.attendanceConsistency}</td>
+              <td className="border border-slate-700 p-2">
+                <button
+                  className="bg-red-600 hover:bg-red-400 text-white px-4 py-2 rounded mx-auto block"
+                  onClick={() => handleDelete(student.id)}
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <button
+        className="bg-red-600 hover:bg-red-400 text-white px-4 py-2 rounded mx-auto block"
+        onClick={() => handleDeleteAll()}
+      >
+        Delete All
+      </button>
       <Link href="/students" className="items-center gap-5 self-start rounded-lg bg-red-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-400 md:text-base">Click here to go back</Link>
     </div>
   );

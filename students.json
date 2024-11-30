@@ -1,12 +1,12 @@
 [
   {
     "id": "1",
-    "personality": "Introverted",
+    "personality": "Introvert",
     "bestFriendId": "2",
-    "eyesightIssues": true,
+    "eyesightIssues": false,
     "gender": "Male",
     "noisinessLevel": "1",
-    "gpa": "0.1",
+    "gpa": "1",
     "favoriteSubject": "Math",
     "participationLevel": "1",
     "attendanceConsistency": "1"

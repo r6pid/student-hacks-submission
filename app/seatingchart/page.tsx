@@ -1,10 +1,52 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link' 
 
 export default function Page() {
+  const [seatingChart, setChart] = useState<Student[]>([]);
+  
   const [colors, setColors] = useState(Array(100).fill('lightgray'));
+  const [greenSquares, setGreenSquares] = useState([]);
+
+  const handleSquareClick = (index) => {
+    const newColors = colors.map((color, i) =>
+      i === index ? (color === 'green' ? 'lightgray' : 'green') : color
+    );
+    setColors(newColors);
+
+    const updatedGreenSquares = newColors
+      .map((color, i) => (color === 'green' ? i : null))
+      .filter((i) => i !== null);
+
+    setGreenSquares(updatedGreenSquares);
+  };
+
+  useEffect(() => {
+    const fetchSeatingChart = async() => {
+      try {
+        const response = await fetch('/api/create-seating-chart');
+        if (response.ok) {
+          const data = await response.json();
+          setChart(data);
+        }
+        else {
+          alert('Failed to fetch seating chart');
+        }
+      }
+      catch(error) {
+        alert('Error fetching seating chart');
+        console.error('Error:', error);
+      }
+    };
+
+    fetchSeatingChart();
+  }, []);
+
+  const createSeatingChart = async () => {
+    
+  }
+
   return (
     <div 
       className="grid items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]" 
@@ -17,15 +59,17 @@ export default function Page() {
             key={i} 
             className="w-12 h-12 border border-black cursor-pointer"
             style={{ backgroundColor: color }}
-            onClick={() => { 
-              const newColors = [...colors]; 
-              newColors[i] = newColors[i] === 'green' ? 'lightgray' : 'green'; 
-              setColors(newColors); 
-            }}
+            onClick={() => handleSquareClick(i)}
           >
           </div> 
         ))}
       </div> 
+      <button
+        className="bg-green-600 hover:bg-green-400 text-white px-4 py-2 rounded mx-auto block"
+        onClick={() => createSeatingChart()}
+      >
+        Generate
+      </button>
       <Link 
         href="/"
         className="items-center gap-5 self-start rounded-lg bg-red-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-400 md:text-base"

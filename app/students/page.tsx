@@ -43,19 +43,8 @@ export default function Page() {
     e.preventDefault();
 
     // Validation checks for all fields
-    if (
-      !formData.id ||
-      !formData.personality ||
-      formData.bestFriendId === undefined ||
-      formData.eyesightIssues === undefined ||
-      !formData.gender ||
-      formData.noisinessLevel === undefined ||
-      formData.gpa === undefined ||
-      !formData.favoriteSubject ||
-      formData.participationLevel === undefined ||
-      formData.attendanceConsistency === undefined
-    ) {
-      alert('Please fill in all required fields.');
+    if (students.some(student => student.id === formData.id)) {
+      alert('Student ID already exists!');
       return;
     }
 
@@ -106,10 +95,20 @@ export default function Page() {
           <label style={{ width: '150px' }}>ID:</label>
           <input type="number" name="id" value={formData.id || ''} onChange={handleChange} placeholder="Type Here" required min="1" max="100" style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
-        
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <label style={{ width: '150px' }}>Personality:</label>
-          <input type="text" name="personality" value={formData.personality || ''} onChange={handleChange} placeholder="Type Here" required style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
+          <select
+            name="personality"
+            value={formData.personality}
+            onChange={handleChange}
+            required
+            style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }}
+          >
+            <option value="">Select...</option>
+            <option value="Introvert">Introvert</option>
+            <option value="Extrovert">Extrovert</option>
+          </select>
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -124,7 +123,17 @@ export default function Page() {
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <label style={{ width: '150px' }}>Gender:</label>
-          <input type="text" name="gender" value={formData.gender || ''} onChange={handleChange} placeholder="Type Here" required style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
+          <select
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            required
+            style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }}
+          >
+            <option value="">Select...</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -144,7 +153,7 @@ export default function Page() {
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <label style={{ width: '150px' }}>Participation Level:</label>
-          <input type="number" name="participationLevel" value={formData.participationLevel || ''} onChange={handleChange} placeholder="Type Here" required min="0" max="10" style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
+          <input type="number" name="participationLevel" value={formData.participationLevel || ''} onChange={handleChange} placeholder="Type Here" required min="0" max="100" style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -152,7 +161,7 @@ export default function Page() {
           <input type="number" name="attendanceConsistency" value={formData.attendanceConsistency || ''} onChange={handleChange} placeholder="Type Here" required min="0" max="10" style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
         
-        <button type="submit" style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', fontSize: '16px', cursor: 'pointer', marginTop: '10px' }}>Add Student</button>
+        <button type="submit" className="bg-green-600 hover:bg-green-400 text-white px-4 py-2 rounded mx-auto block" >Add Student</button>
       </form>
       <Link href="/students/editstudents" className="items-center gap-5 self-start rounded-lg bg-blue-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base">View Students</Link>
       <Link href="/" className="items-center gap-5 self-start rounded-lg bg-red-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-red-400 md:text-base">Click here to go back</Link>
