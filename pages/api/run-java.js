@@ -1,4 +1,4 @@
-import runJavaProgram from '/Users/Sean/GitHub/student-hacks-submission/runJava';
+import runJavaProgram from '/runJava';
 
 export default function handler(req, res) {
     if (req.method === 'POST') {

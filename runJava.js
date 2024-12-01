@@ -2,7 +2,7 @@ const { exec } = require('child_process');
 const path = require('path');
 
 function runJavaProgram(callback) {
-    const projectRoot = path.resolve("C:/Users/Sean/GitHub/student-hacks-submission");
+    const projectRoot = path.resolve(__dirname, "../../../../../student-hacks-submission");
     const javaFilesPath = path.join(projectRoot, 'java', 'student', 'hacks', 'submission');
     console.log('Project Root:', projectRoot);
     console.log('Java Files Path:', javaFilesPath); // Print path for debugging

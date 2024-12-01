@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "student-hacks-submission/*": ["java/student/hacks/submission/*"]
+      }
+    }
+  }
+  
