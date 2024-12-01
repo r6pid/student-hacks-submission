@@ -89,18 +89,6 @@ export default function Page() {
     fetchStudents();
   }, []);
 
-  const createSeatingChart = async () => {
-    if (greenSquares.length != students.length) {
-      alert("Number of seats needs to equal number of students!")
-    }
-    else {
-      makeChart();
-      fetchSeatingChart();
-      mapIntegersToGreenSquares();
-      console.log(numberOverlay);
-    }
-  };
-
   const mapIntegersToGreenSquares = () => {
     const newNumberOverlay = [...numberOverlay];
     greenSquares.forEach((index, i) => {
@@ -110,6 +98,17 @@ export default function Page() {
     });
     setNumberOverlay(newNumberOverlay);
   };  
+
+  const createSeatingChart = async () => {
+    if (greenSquares.length != students.length) {
+      alert("Number of seats needs to equal number of students!")
+    }
+    else {
+      makeChart();
+      fetchSeatingChart();
+      mapIntegersToGreenSquares();
+    }
+  };
 
   return (
     <div className="bg-black flex flex-col items-center justify-between min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]">
