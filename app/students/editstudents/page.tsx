@@ -84,8 +84,8 @@ export default function ViewStudents() {
   };
 
   return (
-    <div className="grid bg-black items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]" style={{ gridTemplateRows: "auto auto auto", height: '100vh' }}>
-      <h1 className="text-5xl font-bold">Students List</h1>
+    <div className="grid bg-black flex flex-col items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]">
+      <h1 className="text-5xl font-bold" style={{ color: "white" }}>Students List</h1>
       
       <table className="min-w-full border-collapse border border-slate-500" style = {{ border: "1px solid white", color: "white" }}>
         <thead>
