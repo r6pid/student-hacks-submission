@@ -17,11 +17,12 @@ interface Student {
 }
 
 export default function Page() {
-  const [seatingChart, setChart] = useState<Student[]>([]);
+  const [seatingChart, setChart] = useState<number[]>([]);
   const [colors, setColors] = useState(Array(100).fill('lightgray'));
   const [greenSquares, setGreenSquares] = useState([]);
   const [students, setStudents] = useState<Student[]>([]);
   const [output, setOutput] = useState('');
+  const [numberOverlay, setNumberOverlay] = useState(Array(100).fill(''));
 
   const handleSquareClick = (index) => {
     const newColors = colors.map((color, i) =>
@@ -33,8 +34,27 @@ export default function Page() {
       .map((color, i) => (color === 'green' ? i : null))
       .filter((i) => i !== null);
 
+    const newNumberOverlay = [...numberOverlay];
+    if (newColors[index] === 'lightgray') {
+      newNumberOverlay[index] = '';
+    }
+    
     setGreenSquares(updatedGreenSquares);
+    setNumberOverlay(newNumberOverlay);
   };
+
+  const fetchSeatingChart = async () => {
+    try {
+      const response = await fetch('/api/get-seating-chart');
+      if (response.ok) {
+        const data = await response.json();
+        setChart(data);
+      }
+    } 
+    catch (error) {
+      console.error('Error:', error);
+    }
+  }
 
   const makeChart = async () => {
     const response = await fetch('/api/run-java', {
@@ -73,11 +93,26 @@ export default function Page() {
     if (greenSquares.length != students.length) {
       alert("Number of seats needs to equal number of students!")
     }
-    makeChart();
+    else {
+      makeChart();
+      fetchSeatingChart();
+      mapIntegersToGreenSquares();
+      console.log(numberOverlay);
+    }
   };
 
+  const mapIntegersToGreenSquares = () => {
+    const newNumberOverlay = [...numberOverlay];
+    greenSquares.forEach((index, i) => {
+      if (i < seatingChart.length) {
+        newNumberOverlay[index] = seatingChart[i].toString();
+      }
+    });
+    setNumberOverlay(newNumberOverlay);
+  };  
+
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]">
+    <div className="bg-black flex flex-col items-center justify-between min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]">
       <h1 className="text-5xl font-bold">Seating Chart Randomizer</h1>
       <div className="grid grid-cols-10 gap-4"> 
         {colors.map((color, i) => ( 
@@ -86,7 +121,13 @@ export default function Page() {
             className="w-12 h-12 border border-black cursor-pointer"
             style={{ backgroundColor: color }}
             onClick={() => handleSquareClick(i)}
-          />
+          >
+            <span 
+              style={{ fontSize: '48px', fontWeight: 'bold', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}
+            >
+              {numberOverlay[i]}
+            </span>
+          </div>
         ))}
       </div>
       <button

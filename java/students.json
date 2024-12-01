@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "personality": "Introvert",
+    "bestFriendId": "2",
+    "eyesightIssues": true,
+    "gender": "Male",
+    "noisinessLevel": "1",
+    "gpa": "0.1",
+    "favoriteSubject": "Math",
+    "participationLevel": "1",
+    "attendanceConsistency": "1"
+  },
+  {
+    "id": "2",
+    "personality": "Extrovert",
+    "bestFriendId": "3",
+    "eyesightIssues": false,
+    "gender": "Male",
+    "noisinessLevel": "1",
+    "gpa": "0.1",
+    "favoriteSubject": "Math",
+    "participationLevel": "2",
+    "attendanceConsistency": "2"
+  },
+  {
+    "id": "3",
+    "personality": "Introvert",
+    "bestFriendId": "2",
+    "eyesightIssues": false,
+    "gender": "Male",
+    "noisinessLevel": "2",
+    "gpa": "0.2",
+    "favoriteSubject": "Math",
+    "participationLevel": "1",
+    "attendanceConsistency": "2"
+  }
+]

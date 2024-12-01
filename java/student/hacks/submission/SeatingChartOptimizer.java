@@ -49,19 +49,23 @@ public class SeatingChartOptimizer {
     // Optimize the seating chart
     public static int[][] optimizeSeating(int[][] grid, List<Student> students) {
         int maxComfortScore = Integer.MIN_VALUE;
+        int[][] newChart;
         int[][] bestChart = null;
 
         // Generate initial random seating
         int[][] currentChart = assignRandomSeating(grid, students);
 
         // Iterate to optimize seating
-        for (int iteration = 0; iteration < 1000; iteration++) { // Reduced iterations for quick testing
-            int[][] newChart = swapRandomSeats(currentChart, students);
-            int comfortScore = calculateComfortScore(newChart, students);
-
-            if (comfortScore > maxComfortScore) {
-                maxComfortScore = comfortScore;
-                bestChart = deepCopyGrid(newChart);
+        for (int iteration = 0; iteration < 1000; iteration++) {
+            if (students.size() > 1) { // Check if list size is greater than 1
+                newChart = swapRandomSeats(currentChart, students);
+                int comfortScore = calculateComfortScore(newChart, students);
+                if (comfortScore > maxComfortScore) {
+                    maxComfortScore = comfortScore;
+                    bestChart = deepCopyGrid(newChart);
+                }
+            } else {
+                bestChart = currentChart;
             }
         }
 
@@ -78,8 +82,7 @@ public class SeatingChartOptimizer {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (grid[i][j] == 1) { // Only consider valid seats
-                    GridPosition gp = new GridPosition(i, j);
-                    seats.add(gp);
+                    seats.add(new GridPosition(i, j));
                 }
             }
         }
@@ -101,7 +104,7 @@ public class SeatingChartOptimizer {
                     assignedStudents.add(student.id);
                 }
             }
-        } while (hasDuplicates(seatingChart)); // Regenerate if duplicates are found
+        } while (hasDuplicates(seatingChart) && students.size() > 1); // Check if list size is greater than 1
 
         return seatingChart;
     }
@@ -273,7 +276,7 @@ public class SeatingChartOptimizer {
         // Step 1: Read and parse the JSON file to gather the list of students
         List<Student> students = new ArrayList<>();
         try {
-            String jsonFilePath = "students.json";
+            String jsonFilePath = "C:/Users/Sean/GitHub/student-hacks-submission/java/students.json";
             String jsonData = ReadJsonFile.readJsonFromFile(jsonFilePath);
             students = ParseJson.parseJsonData(jsonData);
         } catch (IOException e) {
@@ -285,12 +288,19 @@ public class SeatingChartOptimizer {
         // Initialize the grid with a predefined pattern of seats (1 for seat, 0 for no seat)
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                classroomGrid[i][j] = 10*i+j+1 < students.size() ? 1 : 0;
+                classroomGrid[i][j] = 10*i+j+1 <= students.size() ? 1 : 0;
             }
         }
 
         // Step 3: Run the seating chart optimization
         int[][] optimizedChart = optimizeSeating(classroomGrid, students);
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                System.out.print(optimizedChart[i][j] + " ");
+            }
+            System.out.println();
+        }
 
         // Step 4: Get the order of students from left to right, front to back
         List<Integer> studentOrder = new ArrayList<>();
@@ -303,7 +313,7 @@ public class SeatingChartOptimizer {
         }
 
         // Step 5: Write the student order to a file
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("seating-chart.json"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("C:/Users/Sean/GitHub/student-hacks-submission/java/seating-chart.json"))) {
             writer.write("[");
             for (int i = 0; i < studentOrder.size(); i++) {
                 writer.write(studentOrder.get(i).toString());
