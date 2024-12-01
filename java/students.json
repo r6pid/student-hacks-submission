@@ -46,5 +46,29 @@
     "favoriteSubject": "Math",
     "participationLevel": "1",
     "attendanceConsistency": "1"
+  },
+  {
+    "id": "45",
+    "personality": "Introvert",
+    "bestFriendId": "23",
+    "eyesightIssues": true,
+    "gender": "Male",
+    "noisinessLevel": "2",
+    "gpa": "3",
+    "favoriteSubject": "Math",
+    "participationLevel": "23",
+    "attendanceConsistency": "1"
+  },
+  {
+    "id": "100",
+    "personality": "Introvert",
+    "bestFriendId": "23",
+    "eyesightIssues": true,
+    "gender": "Male",
+    "noisinessLevel": "2",
+    "gpa": "3",
+    "favoriteSubject": "Math",
+    "participationLevel": "12",
+    "attendanceConsistency": "3"
   }
 ]

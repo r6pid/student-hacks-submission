@@ -112,7 +112,8 @@ export default function Page() {
     <div className="bg-black flex flex-col items-center justify-between min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]">
       <h1 className="text-5xl font-bold text-white" style={{ color: 'white' }}>Seating Chart Randomizer</h1>
       <h2 className="text-3xl text-white" style={{ color: 'white' }}>Press Multiple Times If It Doesn't Work At First</h2>
-      <h3 className="text-xl text-white" style={{ color: 'white' }}>If it stops changing after clicking many times, then try new seat combinations.</h3>
+      <h3 className="text-xl text-white" style={{ color: 'white' }}>If it stops changing after clicking many times, then try new seat combinations. After generating, wait a bit if you want to go back.</h3>
+      <h1 className="text-4xl font-bold text-white" style={{ color: 'white' }}>Front Of The Room</h1>
       <div className="grid grid-cols-10 gap-4"> 
         {colors.map((color, i) => ( 
           <div 
@@ -122,13 +123,14 @@ export default function Page() {
             onClick={() => handleSquareClick(i)}
           >
             <span 
-              style={{ fontSize: '48px', fontWeight: 'bold', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}
+              style={{ fontWeight: 'bold', color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%' }}
             >
               {numberOverlay[i]}
             </span>
           </div>
         ))}
       </div>
+      <h1 className="text-4xl font-bold text-white" style={{ color: 'white' }}>Back Of The Room</h1>
       <button
         className="bg-green-600 hover:bg-green-400 text-white px-4 py-2 rounded mx-auto block"
         onClick={() => createSeatingChart()}
