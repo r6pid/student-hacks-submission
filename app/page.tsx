@@ -10,6 +10,7 @@ export default function Home() {
 			>
 				<h1 className="text-5xl font-bold" style={{ color: "white" }}> Classroom Randomizer </h1>
 				<h2 className="text-3xl" style={{ color: "white" }}> Requires Java (JDK Oracle) Installed On Computer. If an error pops up, just reload the page. </h2>
+				<h2 className="text-3xl" style={{ color: "white" }}> Also get the Java Platform Extension for Visual Studio Code. </h2>
 				<Link
 					href="/seatingchart"
 					className="flex items-center gap-5 self-start rounded-lg bg-blue-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
