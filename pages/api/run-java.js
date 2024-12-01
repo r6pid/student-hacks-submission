@@ -3,14 +3,12 @@ import runJavaProgram from '/runJava';
 export default function handler(req, res) {
     if (req.method === 'POST') {
         runJavaProgram((error, output) => {
-            if (error) {
-                res.status(500).json({ error: 'Error running Java program' });
-                return;
+            if (!error) {
+                res.status(200).json({ output });
             }
-
-            res.status(200).json({ output });
         });
-    } else {
+    } 
+    else {
         res.status(405).end(); // Method Not Allowed
     }
 }
