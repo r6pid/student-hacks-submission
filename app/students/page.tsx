@@ -89,6 +89,7 @@ export default function Page() {
   return (
     <div className="grid bg-black flex flex-col items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]">
       <h1 className="text-5xl font-bold" style={{ color: 'white' }}>Create Student</h1>
+      <h2 className="text-3xl" style={{ color: 'white' }}>Students are already added in. You can delete and edit the list as you wish.</h2>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '10px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <label style={{ width: '150px', color: 'white' }}>ID:</label>
