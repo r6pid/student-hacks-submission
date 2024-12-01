@@ -114,6 +114,7 @@ export default function Page() {
   return (
     <div className="bg-black flex flex-col items-center justify-between min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]">
       <h1 className="text-5xl font-bold text-white" style={{ color: 'white' }}>Seating Chart Randomizer</h1>
+      <h2 className="text-3xl text-white" style={{ color: 'white' }}>Press Multiple Times If It Doesn't Work At First</h2>
       <div className="grid grid-cols-10 gap-4"> 
         {colors.map((color, i) => ( 
           <div 
