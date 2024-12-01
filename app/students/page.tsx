@@ -91,12 +91,12 @@ export default function Page() {
       <h1 className="text-5xl font-bold" style={{ color: 'white' }}>Create Student</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '10px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ width: '150px' }}>ID:</label>
+          <label style={{ width: '150px', color: 'white' }}>ID:</label>
           <input type="number" name="id" value={formData.id || ''} onChange={handleChange} placeholder="(1-100)" required min="1" max="100" style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ width: '150px' }}>Personality:</label>
+          <label style={{ width: '150px', color: 'white' }}>Personality:</label>
           <select
             name="personality"
             value={formData.personality}
@@ -111,17 +111,17 @@ export default function Page() {
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ width: '150px' }}>Best Friend ID:</label>
+          <label style={{ width: '150px', color: 'white' }}>Best Friend ID:</label>
           <input type="number" name="bestFriendId" value={formData.bestFriendId || ''} onChange={handleChange} placeholder="(1-100)" required min="1" max="100" style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ width: '150px' }}>Eyesight Issues:</label>
+          <label style={{ width: '150px', color: 'white' }}>Eyesight Issues:</label>
           <input type="checkbox" name="eyesightIssues" checked={formData.eyesightIssues || false} onChange={handleChange} style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ width: '150px' }}>Gender:</label>
+          <label style={{ width: '150px', color: 'white' }}>Gender:</label>
           <select
             name="gender"
             value={formData.gender}
@@ -136,27 +136,27 @@ export default function Page() {
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ width: '150px' }}>Noisiness Level:</label>
+          <label style={{ width: '150px', color: 'white' }}>Noisiness Level:</label>
           <input type="number" name="noisinessLevel" value={formData.noisinessLevel || ''} onChange={handleChange} placeholder="(0-10)" required min="0" max="10" style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ width: '150px' }}>GPA:</label>
+          <label style={{ width: '150px', color: 'white' }}>GPA:</label>
           <input type="number" step="0.1" name="gpa" value={formData.gpa || ''} onChange={handleChange} placeholder="(0-5)" required min="0" max="5" style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ width: '150px' }}>Favorite Subject:</label>
+          <label style={{ width: '150px', color: 'white' }}>Favorite Subject:</label>
           <input type="text" name="favoriteSubject" value={formData.favoriteSubject || ''} onChange={handleChange} placeholder="Type Here" required style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ width: '150px' }}>Participation Level:</label>
+          <label style={{ width: '150px', color: 'white' }}>Participation Level:</label>
           <input type="number" name="participationLevel" value={formData.participationLevel || ''} onChange={handleChange} placeholder="(0-100)" required min="0" max="100" style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <label style={{ width: '150px' }}>Attendance Consistency:</label>
+          <label style={{ width: '150px', color: 'white' }}>Attendance Consistency:</label>
           <input type="number" name="attendanceConsistency" value={formData.attendanceConsistency || ''} onChange={handleChange} placeholder="(0-10)" required min="0" max="10" style={{ width: '400px', padding: '10px 20px', margin: '0', color: 'black' }} />
         </div>
         
