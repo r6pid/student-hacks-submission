@@ -34,5 +34,17 @@
     "favoriteSubject": "Math",
     "participationLevel": "1",
     "attendanceConsistency": "2"
+  },
+  {
+    "id": "4",
+    "personality": "Introvert",
+    "bestFriendId": "2",
+    "eyesightIssues": true,
+    "gender": "Male",
+    "noisinessLevel": "1",
+    "gpa": "0.1",
+    "favoriteSubject": "Math",
+    "participationLevel": "1",
+    "attendanceConsistency": "1"
   }
 ]
