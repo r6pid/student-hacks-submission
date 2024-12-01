@@ -87,36 +87,36 @@ export default function ViewStudents() {
     <div className="grid bg-black items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-30 font-[family-name:var(--font-geist-sans)]" style={{ gridTemplateRows: "auto auto auto", height: '100vh' }}>
       <h1 className="text-5xl font-bold">Students List</h1>
       
-      <table className="min-w-full border-collapse border border-slate-500">
+      <table className="min-w-full border-collapse border border-slate-500" style = {{ border: "1px solid white", color: "white" }}>
         <thead>
           <tr>
-            <th className="border border-slate-600 p-2">ID</th>
-            <th className="border border-slate-600 p-2">Personality</th>
-            <th className="border border-slate-600 p-2">Best Friend ID</th>
-            <th className="border border-slate-600 p-2">Eyesight Issues</th>
-            <th className="border border-slate-600 p-2">Gender</th>
-            <th className="border border-slate-600 p-2">Noisiness Level</th>
-            <th className="border border-slate-600 p-2">GPA</th>
-            <th className="border border-slate-600 p-2">Favorite Subject</th>
-            <th className="border border-slate-600 p-2">Participation Level</th>
-            <th className="border border-slate-600 p-2">Attendance Consistency</th>
-            <th className="border border-slate-600 p-2">Actions</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>ID</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>Personality</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>Best Friend ID</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>Eyesight Issues</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>Gender</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>Noisiness Level</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>GPA</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>Favorite Subject</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>Participation Level</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>Attendance Consistency</th>
+            <th className="border border-slate-600 p-2" style = {{ border: "1px solid white", color: "white" }}>Actions</th>
           </tr>
         </thead>
         <tbody>
           {students.map((student) => (
             <tr key={student.id}>
-              <td className="border border-slate-700 p-2">{student.id}</td>
-              <td className="border border-slate-700 p-2">{student.personality}</td>
-              <td className="border border-slate-700 p-2">{student.bestFriendId}</td>
-              <td className="border border-slate-700 p-2">{student.eyesightIssues ? 'Yes' : 'No'}</td>
-              <td className="border border-slate-700 p-2">{student.gender}</td>
-              <td className="border border-slate-700 p-2">{student.noisinessLevel}</td>
-              <td className="border border-slate-700 p-2">{student.gpa}</td>
-              <td className="border border-slate-700 p-2">{student.favoriteSubject}</td>
-              <td className="border border-slate-700 p-2">{student.participationLevel}</td>
-              <td className="border border-slate-700 p-2">{student.attendanceConsistency}</td>
-              <td className="border border-slate-700 p-2">
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>{student.id}</td>
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>{student.personality}</td>
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>{student.bestFriendId}</td>
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>{student.eyesightIssues ? 'Yes' : 'No'}</td>
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>{student.gender}</td>
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>{student.noisinessLevel}</td>
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>{student.gpa}</td>
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>{student.favoriteSubject}</td>
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>{student.participationLevel}</td>
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>{student.attendanceConsistency}</td>
+              <td className="border border-slate-700 p-2" style = {{ border: "1px solid white", color: "white" }}>
                 <button
                   className="bg-red-600 hover:bg-red-400 text-white px-4 py-2 rounded mx-auto block"
                   onClick={() => handleDelete(student.id)}
